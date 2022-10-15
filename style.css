@@ -1,0 +1,156 @@
+:root {
+  --main-color: rgb(170, 35, 41);
+  --primary--color: rgb(44, 212, 238);
+  --second--color: rgb(229, 217, 45);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+main {
+  width: 350px;
+  margin: 0 auto;
+  background-color: var(--primary--color);
+}
+
+.mainHeader {
+  display: flex;
+  align-items: center;
+}
+
+.actual {
+  position: relative;
+  background-color: var(--main-color);
+  width: 50%;
+  padding: 22px 0 10px 0;
+  color: white;
+}
+.change {
+  width: 30px;
+  position: absolute;
+  right: 5px;
+  top: 0;
+}
+.changeStatus {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+}
+.changeStatus p {
+    margin: 5px auto;
+}
+.changeStatus input {
+    margin: 0 auto;
+}
+.changeStatus button {
+    width: 50px;
+}
+.changeStatus .btns {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 7px;
+}
+.reset {
+  position: absolute;
+  width: 30px;
+  right: 38px;
+  top: 0;
+}
+.searchContainer {
+  padding: 20px 0;
+  margin: 0 auto;
+}
+.search {
+  font-weight: 600;
+  margin-left: 5px;
+}
+input {
+  width: 130px;
+  margin-left: 5px;
+}
+.cardContainer {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  width: 100%;
+  background-color: var(--second--color);
+  position: relative;
+}
+.cardContainer a {
+  text-decoration: none;
+}
+.cardContainer a:hover {
+  color: red;
+}
+.volver {
+  position: absolute;
+  left: 0;
+  font-size: 25px;
+}
+.volver:hover {
+  color: red;
+}
+.info {
+  display: flex;
+  margin-top: 15px;
+  gap: 15px;
+  text-align: center;
+  justify-content: center;
+}
+.cardInfo {
+  width: 150px;
+  text-align: center;
+}
+ul {
+  display: flex;
+  flex-direction: column;
+}
+li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+li img {
+  width: 25px;
+  border-radius: 50px;
+  margin-right: 5px;
+}
+.cardInfo a img:hover {
+  opacity: 0.65;
+}
+.modal {
+  width: 200px;
+  position: absolute;
+  top: 0;
+}
+
+@media (max-width: 576px) {
+  main {
+    width: 100%;
+  }
+  .change {
+    top: 10px;
+    right: 20px;
+  }
+  .reset {
+    top: 10px;
+    right: 60px;
+  }
+}
+
+@media (max-width: 425px) {
+  .mainHeader {
+    flex-direction: column;
+  }
+  .actual {
+    width: 100%;
+  }
+}
