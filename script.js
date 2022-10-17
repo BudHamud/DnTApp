@@ -127,7 +127,7 @@ function death(e, num) {
   peace += e[num].death_peace;
   healthcare += e[num].death_healthcare;
   prosperity += e[num].death_prosperity;
-  peopleData.push(people[busquedaActual] + "💀");
+  currentRun.push(people[busquedaActual] + "💀");
   updateStatus();
 }
 
@@ -141,7 +141,7 @@ function spare(e, num) {
   peace += e[num].spare_peace;
   healthcare += e[num].spare_healthcare;
   prosperity += e[num].spare_prosperity;
-  peopleData.push(people[busquedaActual] + "😀");
+  currentRun.push(people[busquedaActual] + "😀");
   updateStatus();
 }
 
