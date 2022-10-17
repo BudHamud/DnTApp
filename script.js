@@ -1,46 +1,23 @@
-let ecology = localStorage.getItem('ecology')
-let peace = localStorage.getItem('peace')
-let healthcare = localStorage.getItem('healthcare')
-let prosperity = localStorage.getItem('prosperity');
 let actual = document.getElementById("actual");
 let cardContainer = document.getElementById("cardContainer");
 let getData = document.getElementById("getData");
+let actualLemon = document.getElementById("actualLemon");
+let actualStatus = document.getElementById("status");
 let cond = 0;
-let ecologyCont = 0
-let peaceCont = 0
-let healthcareCont = 0
-let prosperityCont = 0
+let ecology = 0;
+let peace = 0;
+let healthcare = 0;
+let prosperity = 0;
+let busquedaActual;
+let currentRun = [];
+let gameSet = [];
 let people = [];
 let borrar = true;
-let busquedaActual;
 let modalOpen = false;
+let menor = 0;
+let mayor = 0;
 
 getStatus();
-
-function getStatus() {
-  actual.innerHTML = `<ul>
-  <li><img src="img/ecology.jpg"> Ecology: ${ecology}</li>
-  <li><img src="img/peace.jpg"> Peace: ${peace}</li>
-  <li><img src="img/healthcare.jpg">Healthcare: ${healthcare}</li>
-  <li><img src="img/prosperity.jpg">Prosperity: ${prosperity}</li>
-  </ul>
-  <button class="change" onclick="changeStatus()"><i class="fa-solid fa-gear"></i></button>
-  <button class="reset" onclick="clearStatus()"><i class="fa-solid fa-rotate-left"></i></button>`;
-  
-}
-
-getData.addEventListener("input", (e) => {
-  const value = e.target.value;
-  for (let i = 0; i < people.length; i++) {
-    if (people[i].includes(value)) {
-      getDatos(people[i]);
-    }
-    if (borrar === true) {
-      cardContainer.innerHTML = "Isn't here";
-    }
-  }
-  borrar = true;
-});
 
 fetch("api.json")
   .then((resp) => resp.json())
@@ -54,62 +31,90 @@ fetch("api.json")
     });
   });
 
-function getDatos(e) {
-  if (borrar === true) {
-    cardContainer.innerHTML = "";
-    borrar = false;
-  }
-  const cardBody = document.createElement("div");
-  cardBody.className = "peopleCard";
-  cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${e}')">${e}</a>`;
-  cardContainer.append(cardBody);
+function getStatus() {
+  getStorage();
+  getLemon();
+  actual.innerHTML = `<ul>
+      <li><img src="img/ecology.jpg"> Ecology: ${ecology}</li>
+      <li><img src="img/peace.jpg"> Peace: ${peace}</li>
+      <li><img src="img/healthcare.jpg">Healthcare: ${healthcare}</li>
+      <li><img src="img/prosperity.jpg">Prosperity: ${prosperity}</li>
+      </ul>
+      <button class="change" onclick="changeStatus()"><i class="fa-solid fa-gear"></i></button>
+      <button class="reset" onclick="clearStatus()"><i class="fa-solid fa-rotate-left"></i></button>`;
 }
 
-function fech(num) {
-  fetch("api.json")
-    .then((resp) => resp.json())
-    .then((json) => mostrar(json, num));
+function getStorage() {
+  ecology = Number(localStorage.getItem("ecology"));
+  peace = Number(localStorage.getItem("peace"));
+  healthcare = Number(localStorage.getItem("healthcare"));
+  prosperity = Number(localStorage.getItem("prosperity"));
 }
 
-function ingresarBusqueda(e) {
-  fech(people.indexOf(e));
-  busquedaActual = people.indexOf(e);
+function updateStatus() {
+  localStorage.setItem("ecology", ecology);
+  localStorage.setItem("peace", peace);
+  localStorage.setItem("healthcare", healthcare);
+  localStorage.setItem("prosperity", prosperity);
+  getStorage();
+  console.log(
+    "Ecology: " + ecology + " //",
+    "Peace: " + peace + " //",
+    "Healthcare: " + healthcare + " //",
+    "Prosperity: " + prosperity
+  );
 }
 
-function buscar() {
-  fech(people.indexOf(getData.value))
-}
-
-function mostrar(e, num) {
-  if (cond == 1) death(e, num);
-  if (cond == 2) spare(e, num);
+function clearStatus() {
+  ecology = 0;
+  peace = 0;
+  healthcare = 0;
+  prosperity = 0;
+  updateStatus();
   getStatus();
-  getCard(e, num);
+}
+
+function changeStatus() {
+  const div = document.createElement("div");
+  div.innerHTML = `<p>Ecology</p>
+    <input id="ecoSet" type="number">
+    <p>Peace</p>
+    <input id="peaSet" type="number">
+    <p>Healthcare</p>
+    <input id="helSet" type="number">
+    <p>Prosperity</p>
+    <input id="proSet" type="number">
+    <div class="btns">
+    <button onclick="clickSet()">Set</button>
+    <button onclick="clickClose()">Close</button>
+    </div>`;
+  div.className = "changeStatus";
+  actual.appendChild(div);
 }
 
 function getCard(e, num) {
   cardContainer.innerHTML = `<a href="#" class="volver" onclick="volver()"><i class="fa-solid fa-arrow-left"></i></a> <h3>${e[num].name}</h3>
-  <div class="info">
-  <div class="cardInfo death">
-  <h4>Death</h4>
-  <ul>
-  <li><img src="img/ecology.jpg"> Ecology: ${e[num].death_ecology}</li>
-  <li><img src="img/peace.jpg"> Peace: ${e[num].death_peace}</li>
-  <li><img src="img/healthcare.jpg"> Healthcare: ${e[num].death_healthcare}</li>
-  <li><img src="img/prosperity.jpg"> Prosperity: ${e[num].death_prosperity}</li>
-  </ul>
-  <a href="#" onclick="die()"><img src="img/die.png"></a>
-  </div>
-  <div class="cardInfo spare">
-  <h4>Spare</h4>
-  <ul>
-  <li><img src="img/ecology.jpg"> Ecology: ${e[num].spare_ecology}</li>
-  <li><img src="img/peace.jpg"> Peace: ${e[num].spare_peace}</li>
-  <li><img src="img/healthcare.jpg"> Healthcare: ${e[num].spare_healthcare}</li>
-  <li><img src="img/prosperity.jpg"> Prosperity: ${e[num].spare_prosperity}</li>
-  </ul>
-  <a href="#" onclick="live()"><img src="img/live.png"></a>
-  </div>`;
+    <div class="info">
+    <div class="cardInfo spare">
+    <h4>Spare</h4>
+    <ul>
+    <li><img src="img/ecology.jpg"> Ecology: ${e[num].spare_ecology}</li>
+    <li><img src="img/peace.jpg"> Peace: ${e[num].spare_peace}</li>
+    <li><img src="img/healthcare.jpg"> Healthcare: ${e[num].spare_healthcare}</li>
+    <li><img src="img/prosperity.jpg"> Prosperity: ${e[num].spare_prosperity}</li>
+    </ul>
+    <a href="#" onclick="live()"><img src="img/live.png"></a>
+    </div>
+    <div class="cardInfo death">
+    <h4>Death</h4>
+    <ul>
+    <li><img src="img/ecology.jpg"> Ecology: ${e[num].death_ecology}</li>
+    <li><img src="img/peace.jpg"> Peace: ${e[num].death_peace}</li>
+    <li><img src="img/healthcare.jpg"> Healthcare: ${e[num].death_healthcare}</li>
+    <li><img src="img/prosperity.jpg"> Prosperity: ${e[num].death_prosperity}</li>
+    </ul>
+    <a href="#" onclick="die()"><img src="img/die.png"></a>
+    </div>`;
 }
 
 function die() {
@@ -118,11 +123,12 @@ function die() {
 }
 
 function death(e, num) {
-  ecologyCont += e[num].death_ecology;
-  peaceCont += e[num].death_peace;
-  healthcareCont += e[num].death_healthcare;
-  prosperityCont += e[num].death_prosperity;
-  updateStatus()
+  ecology += e[num].death_ecology;
+  peace += e[num].death_peace;
+  healthcare += e[num].death_healthcare;
+  prosperity += e[num].death_prosperity;
+  peopleData.push(people[busquedaActual] + "💀");
+  updateStatus();
 }
 
 function live() {
@@ -131,17 +137,27 @@ function live() {
 }
 
 function spare(e, num) {
-  ecologyCont += e[num].spare_ecology;
-  peaceCont += e[num].spare_peace;
-  healthcareCont += e[num].spare_healthcare;
-  prosperityCont += e[num].spare_prosperity;
-  updateStatus()
+  ecology += e[num].spare_ecology;
+  peace += e[num].spare_peace;
+  healthcare += e[num].spare_healthcare;
+  prosperity += e[num].spare_prosperity;
+  peopleData.push(people[busquedaActual] + "😀");
+  updateStatus();
 }
 
-function volver() {
-  cardContainer.innerHTML = "";
-  cond = 0;
-  getPersonas();
+function getLemon() {
+  if (cond == 0) {
+    actualLemon.innerHTML = "Current: " + people[busquedaActual];
+    actualStatus.innerHTML = "";
+  }
+  if (cond === 1) {
+    actualLemon.innerHTML = "Last: " + people[busquedaActual];
+    actualStatus.innerHTML = "💀";
+  }
+  if (cond == 2) {
+    actualLemon.innerHTML = "Last: " + people[busquedaActual];
+    actualStatus.innerHTML = "😀";
+  }
 }
 
 function getPersonas() {
@@ -158,56 +174,91 @@ function getPersonas() {
     });
 }
 
-function updateStatus() {
-  localStorage.setItem('ecology', ecologyCont)
-  localStorage.setItem('peace', peaceCont)
-  localStorage.setItem('healthcare', healthcareCont)
-  localStorage.setItem('prosperity', prosperityCont)
-  ecology = localStorage.ecology
-  peace = localStorage.peace
-  healthcare = localStorage.healthcare
-  prosperity = localStorage.prosperity
-  console.log("Ecology: " + ecology + " //","Peace: " + peace + " //","Healthcare: " + healthcare + " //","Prosperity: " + prosperity)
+function volver() {
+  cardContainer.innerHTML = "";
+  getPersonas();
 }
 
-function clearStatus() {
-  ecologyCont = 0
-  peaceCont = 0
-  healthcareCont = 0
-  prosperityCont = 0
-  updateStatus()
-  getStatus()
+getData.addEventListener("input", (e) => {
+  const value = e.target.value;
+  for (let i = 0; i < people.length; i++) {
+    if (people[i].includes(value)) {
+      getDatos(people[i]);
+    }
+    if (borrar === true) {
+      cardContainer.innerHTML = "Isn't here";
+    }
+  }
+  borrar = true;
+});
+
+function getDatos(e) {
+  if (borrar === true) {
+    cardContainer.innerHTML = "";
+    borrar = false;
+  }
+  const cardBody = document.createElement("div");
+  cardBody.className = "peopleCard";
+  cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${e}')">${e}</a>`;
+  cardContainer.append(cardBody);
 }
 
-function changeStatus() {
-  const div = document.createElement('div')
-  div.innerHTML = 
-  `<p>Ecology</p>
-  <input id="ecoSet" type="number">
-  <p>Peace</p>
-  <input id="peaSet" type="number">
-  <p>Healthcare</p>
-  <input id="helSet" type="number">
-  <p>Prosperity</p>
-  <input id="proSet" type="number">
-  <div class="btns">
-  <button onclick="clickSet()">Set</button>
-  <button onclick="clickClose()">Close</button>
-  </div>`
-  div.className = "changeStatus"
-  actual.appendChild(div)
+function buscar() {
+  cond = 0;
+  fech(people.indexOf(getData.value));
+  busquedaActual = people.indexOf(getData.value);
+  getLemon();
+  getData.value = "";
+}
+
+function ingresarBusqueda(e) {
+  fech(people.indexOf(e));
+  busquedaActual = people.indexOf(e);
+  cond = 0;
+  getData.value = "";
 }
 
 function clickSet() {
-  ecologyCont += Number(document.getElementById('ecoSet').value)
-  peaceCont += Number(document.getElementById('peaSet').value)
-  healthcareCont += Number(document.getElementById('helSet').value)
-  prosperityCont += Number(document.getElementById('proSet').value)
-  updateStatus()
-  getStatus()
+  ecology += Number(document.getElementById("ecoSet").value);
+  peace += Number(document.getElementById("peaSet").value);
+  healthcare += Number(document.getElementById("helSet").value);
+  prosperity += Number(document.getElementById("proSet").value);
+  updateStatus();
+  getStatus();
 }
 
 function clickClose() {
-  let div = document.querySelector('.changeStatus')
-  div.remove()
+  let div = document.querySelector(".changeStatus");
+  div.remove();
+}
+
+function fech(num) {
+  fetch("api.json")
+    .then((resp) => resp.json())
+    .then((json) => mostrar(json, num));
+}
+
+function mostrar(e, num) {
+  if (cond == 1) death(e, num);
+  if (cond == 2) spare(e, num);
+  getStatus();
+  getCard(e, num);
+}
+
+function updateSet() {
+  return (gameSet = [ecology, peace, healthcare, prosperity]);
+}
+
+function getFinal(e) {
+  mayor = e[0];
+  menor = e[0];
+  for (let i = 0; i < e.length; i++) {
+    if (e[i] > mayor) {
+      mayor = e[i];
+    }
+    if (e[i] < menor) {
+      menor = e[i];
+    }
+  }
+  return mayor, menor;
 }

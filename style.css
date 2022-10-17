@@ -9,18 +9,19 @@
   margin: 0;
   font-family: sans-serif;
 }
-
-main {
-  width: 350px;
-  margin: 0 auto;
-  background-color: var(--primary--color);
+body {
+  background-image: url(img/back.jpg);
+  background-position: center;
 }
-
+header {
+  width: 380px;
+  margin: 0 auto;
+}
 .mainHeader {
   display: flex;
   align-items: center;
+  background-color: var(--primary--color);
 }
-
 .actual {
   position: relative;
   background-color: var(--main-color);
@@ -35,28 +36,28 @@ main {
   top: 0;
 }
 .changeStatus {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 2;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
 }
 .changeStatus p {
-    margin: 5px auto;
+  margin: 5px auto;
 }
 .changeStatus input {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 .changeStatus button {
-    width: 50px;
+  width: 50px;
 }
 .changeStatus .btns {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 7px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 7px;
 }
 .reset {
   position: absolute;
@@ -65,8 +66,10 @@ main {
   top: 0;
 }
 .searchContainer {
-  padding: 20px 0;
-  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .search {
   font-weight: 600;
@@ -76,12 +79,36 @@ input {
   width: 130px;
   margin-left: 5px;
 }
+.current {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #ffc;
+  padding: 10px 0;
+  position: relative;
+}
+.status {
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  color: black;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main {
+  width: 380px;
+  height: 80vh;
+  margin: 0 auto;
+  overflow: auto;
+  background-color: var(--second--color);
+}
 .cardContainer {
   padding-top: 15px;
   padding-bottom: 15px;
   text-align: center;
   width: 100%;
-  background-color: var(--second--color);
   position: relative;
 }
 .cardContainer a {
@@ -133,6 +160,9 @@ li img {
 }
 
 @media (max-width: 576px) {
+  header {
+    width: 100%;
+  }
   main {
     width: 100%;
   }
@@ -152,5 +182,8 @@ li img {
   }
   .actual {
     width: 100%;
+  }
+  .searchContainer {
+    padding: 15px;
   }
 }

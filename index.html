@@ -9,21 +9,29 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="img/dant.png" type="image/x-icon">
-    <title>Death & Taxes Counter</title>
+    <link rel="shortcut icon" href="img/dant.png" type="image/x-icon" />
+    <title>Death & Taxes Tracker</title>
   </head>
   <body>
-    <main>
+    <header>
       <section class="mainHeader">
         <div id="actual" class="actual"></div>
         <div class="searchContainer">
           <p class="search">Search:</p>
-          <input type="text" id="getData" />
-          <a href="#" onclick="buscar()"
-            ><i class="fa-solid fa-magnifying-glass"></i
-          ></a>
+          <div class="serachBlock">
+            <input type="text" id="getData" />
+            <a href="#" onclick="buscar()"
+              ><i class="fa-solid fa-magnifying-glass"></i
+            ></a>
+          </div>
         </div>
       </section>
+      <section class="current">
+        <div class="actualLemon" id="actualLemon"></div>
+        <div class="status" id="status"></div>
+      </section>
+    </header>
+    <main>
       <section class="cardContainer" id="cardContainer"></section>
     </main>
     <script src="script.js"></script>
