@@ -14,18 +14,20 @@ let gameSet = [];
 let people = [];
 let borrar = true;
 let modalOpen = false;
+let changeOpen = false;
 let menor = 0;
 let mayor = 0;
+let day = 0
 
 getStatus();
 
 fetch("api.json")
   .then((resp) => resp.json())
   .then((data) => {
-    people = data.map((e) => {
+    people = data.map((e, a) => {
       const cardBody = document.createElement("div");
       cardBody.className = "peopleCard";
-      cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${e.name}')">${e.name}</a>`;
+      cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${a}')">${e.name}</a>`;
       cardContainer.append(cardBody);
       return e.name;
     });
@@ -75,8 +77,11 @@ function clearStatus() {
 }
 
 function changeStatus() {
-  const div = document.createElement("div");
-  div.innerHTML = `<p>Ecology</p>
+  if (changeOpen === true) {
+    clickClose();
+  } else {
+    const div = document.createElement("div");
+    div.innerHTML = `<p>Ecology</p>
     <input id="ecoSet" type="number">
     <p>Peace</p>
     <input id="peaSet" type="number">
@@ -88,8 +93,9 @@ function changeStatus() {
     <button onclick="clickSet()">Set</button>
     <button onclick="clickClose()">Close</button>
     </div>`;
-  div.className = "changeStatus";
-  actual.appendChild(div);
+    div.className = "changeStatus";
+    actual.appendChild(div);
+  }
 }
 
 function getCard(e, num) {
@@ -119,7 +125,7 @@ function getCard(e, num) {
 
 function die() {
   cond = 1;
-  fech(busquedaActual);
+  fech(people.indexOf(busquedaActual));
 }
 
 function death(e, num) {
@@ -127,13 +133,14 @@ function death(e, num) {
   peace += e[num].death_peace;
   healthcare += e[num].death_healthcare;
   prosperity += e[num].death_prosperity;
-  currentRun.push(people[busquedaActual] + "💀");
+  currentRun.push(busquedaActual + " 💀");
   updateStatus();
+  getHistory()
 }
 
 function live() {
   cond = 2;
-  fech(busquedaActual);
+  fech(people.indexOf(busquedaActual));
 }
 
 function spare(e, num) {
@@ -141,21 +148,22 @@ function spare(e, num) {
   peace += e[num].spare_peace;
   healthcare += e[num].spare_healthcare;
   prosperity += e[num].spare_prosperity;
-  currentRun.push(people[busquedaActual] + "😀");
+  currentRun.push(busquedaActual + " 😀");
   updateStatus();
+  getHistory()
 }
 
 function getLemon() {
   if (cond == 0) {
-    actualLemon.innerHTML = "Current: " + people[busquedaActual];
+    actualLemon.innerHTML = "Current: " + busquedaActual;
     actualStatus.innerHTML = "";
   }
   if (cond === 1) {
-    actualLemon.innerHTML = "Last: " + people[busquedaActual];
+    actualLemon.innerHTML = "Last: " + busquedaActual;
     actualStatus.innerHTML = "💀";
   }
   if (cond == 2) {
-    actualLemon.innerHTML = "Last: " + people[busquedaActual];
+    actualLemon.innerHTML = "Last: " + busquedaActual;
     actualStatus.innerHTML = "😀";
   }
 }
@@ -164,10 +172,10 @@ function getPersonas() {
   fetch("api.json")
     .then((resp) => resp.json())
     .then((data) => {
-      people = data.map((e) => {
+      people = data.map((e, a) => {
         const cardBody = document.createElement("div");
         cardBody.className = "peopleCard";
-        cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${e.name}')">${e.name}</a>`;
+        cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${a}')">${e.name}</a>`;
         cardContainer.append(cardBody);
         return e.name;
       });
@@ -182,8 +190,8 @@ function volver() {
 getData.addEventListener("input", (e) => {
   const value = e.target.value;
   for (let i = 0; i < people.length; i++) {
-    if (people[i].includes(value)) {
-      getDatos(people[i]);
+    if (people[i].toLowerCase().includes(value.toLowerCase())) {
+      getDatos(people[i], i);
     }
     if (borrar === true) {
       cardContainer.innerHTML = "Isn't here";
@@ -192,28 +200,28 @@ getData.addEventListener("input", (e) => {
   borrar = true;
 });
 
-function getDatos(e) {
+function getDatos(e, a) {
   if (borrar === true) {
     cardContainer.innerHTML = "";
     borrar = false;
   }
   const cardBody = document.createElement("div");
   cardBody.className = "peopleCard";
-  cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${e}')">${e}</a>`;
+  cardBody.innerHTML = `<a href="#" onclick="ingresarBusqueda('${a}')">${e}</a>`;
   cardContainer.append(cardBody);
 }
 
 function buscar() {
   cond = 0;
   fech(people.indexOf(getData.value));
-  busquedaActual = people.indexOf(getData.value);
+  busquedaActual = getData.value;
   getLemon();
   getData.value = "";
 }
 
 function ingresarBusqueda(e) {
-  fech(people.indexOf(e));
-  busquedaActual = people.indexOf(e);
+  fech(e);
+  busquedaActual = people[e];
   cond = 0;
   getData.value = "";
 }
@@ -261,4 +269,10 @@ function getFinal(e) {
     }
   }
   return mayor, menor;
+}
+
+function getHistory() {
+  if (currentRun.length <= 2) return day = 1
+  if (currentRun.length >= 3) return day = 2
+  if (currentRun.length >= 5) return day = 3
 }
