@@ -11642,17 +11642,6 @@
     "death_prosperity": 10
   },
   {
-    "name": "Ewo Sorensen",
-    "spare_ecology": 0,
-    "spare_healthcare": -30,
-    "spare_peace": -30,
-    "spare_prosperity": 0,
-    "death_ecology": 0,
-    "death_healthcare": 0,
-    "death_peace": "40",
-    "death_prosperity": 0
-  },
-  {
     "name": "Faro Magnin",
     "spare_ecology": 45,
     "spare_healthcare": 0,
