@@ -272,7 +272,23 @@ function getFinal(e) {
 }
 
 function getHistory() {
+
   if (currentRun.length <= 2) return day = 1
   if (currentRun.length >= 3) return day = 2
   if (currentRun.length >= 5) return day = 3
 }
+
+function dismissBanner() {
+  document.getElementById("update-banner").style.display = "none";
+  localStorage.setItem("updateBannerDismissed", "true");
+}
+
+function checkBanner() {
+  if (localStorage.getItem("updateBannerDismissed") === "true") {
+    const banner = document.getElementById("update-banner");
+    if (banner) banner.style.display = "none";
+  }
+}
+
+// Check banner status on load
+checkBanner();
