@@ -277,30 +277,3 @@ function getHistory() {
   if (currentRun.length >= 3) return day = 2
   if (currentRun.length >= 5) return day = 3
 }
-
-
-function dismissBanner() {
-  const banner = document.getElementById("update-banner");
-  if (banner) {
-    banner.style.setProperty("display", "none", "important");
-    localStorage.setItem("updateBannerDismissed", "true");
-  }
-}
-
-function checkBanner() {
-  if (localStorage.getItem("updateBannerDismissed") === "true") {
-    const banner = document.getElementById("update-banner");
-    if (banner) banner.style.setProperty("display", "none", "important");
-  } else {
-    // Attach listener if banner is showing
-    const closeBtn = document.getElementById("close-banner");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", dismissBanner);
-    }
-  }
-}
-
-// Check banner status on load
-document.addEventListener("DOMContentLoaded", () => {
-  checkBanner();
-});
