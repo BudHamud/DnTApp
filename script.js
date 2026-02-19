@@ -278,17 +278,29 @@ function getHistory() {
   if (currentRun.length >= 5) return day = 3
 }
 
+
 function dismissBanner() {
-  document.getElementById("update-banner").style.display = "none";
-  localStorage.setItem("updateBannerDismissed", "true");
+  const banner = document.getElementById("update-banner");
+  if (banner) {
+    banner.style.setProperty("display", "none", "important");
+    localStorage.setItem("updateBannerDismissed", "true");
+  }
 }
 
 function checkBanner() {
   if (localStorage.getItem("updateBannerDismissed") === "true") {
     const banner = document.getElementById("update-banner");
-    if (banner) banner.style.display = "none";
+    if (banner) banner.style.setProperty("display", "none", "important");
+  } else {
+    // Attach listener if banner is showing
+    const closeBtn = document.getElementById("close-banner");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", dismissBanner);
+    }
   }
 }
 
 // Check banner status on load
-checkBanner();
+document.addEventListener("DOMContentLoaded", () => {
+  checkBanner();
+});
