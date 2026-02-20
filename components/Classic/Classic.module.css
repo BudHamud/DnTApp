@@ -1,0 +1,460 @@
+/* ---- Variables & Layout ---- */
+.wrapper {
+    --main-color: rgb(170, 35, 41);
+    --primary-color: rgb(44, 212, 238);
+    --second-color: rgb(229, 217, 45);
+
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #2a0a0e;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    font-family: sans-serif;
+    color: black;
+    line-height: normal;
+}
+
+/* Scoped reset so V2 fonts/spacing are not affected */
+.wrapper * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.v2Button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background-color: rgb(170, 35, 41);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s;
+}
+
+.v2Button:hover {
+    opacity: 0.85;
+}
+
+.header {
+    width: 380px;
+    margin: 0 auto;
+}
+
+.mainHeader {
+    display: flex;
+    align-items: center;
+    background-color: rgb(44, 212, 238);
+}
+
+.actual {
+    position: relative;
+    background-color: rgb(170, 35, 41);
+    width: 50%;
+    padding: 22px 0 10px 0;
+    color: white;
+}
+
+.change {
+    width: 30px;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.changeStatus {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #1a1a1a;
+    color: white;
+    position: absolute;
+    top: 24px;
+    left: 0;
+    z-index: 10;
+    width: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.changeStatus p {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 6px;
+}
+
+.changeStatus p:first-child {
+    margin-top: 0;
+}
+
+.changeStatus input {
+    width: 100%;
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: white;
+    font-size: 13px;
+}
+
+.changeStatus input:focus {
+    outline: none;
+    border-color: rgb(44, 212, 238);
+}
+
+.settingsDivider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+}
+
+.settingsLabel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.settingsLabel input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.changeStatus button {
+    width: 50px;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 12px;
+    gap: 10px;
+}
+
+.btns button {
+    width: auto !important;
+    min-width: 70px;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btns button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+.reset {
+    position: absolute;
+    width: 30px;
+    right: 38px;
+    top: 0;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.searchContainer {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.search {
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.searchBlock {
+    display: flex;
+    align-items: center;
+}
+
+.searchBlock input {
+    width: 130px;
+    margin-left: 5px;
+    border: 1px solid #555;
+    padding: 2px 4px;
+    background-color: white;
+}
+
+.searchBlock a {
+    margin-left: 5px;
+    color: black;
+}
+
+.searchDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Fixed height so it doesn't jump when empty vs with text */
+.current {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #ffc;
+    height: 40px;
+    position: relative;
+}
+
+.status {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: black;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    width: 380px;
+    height: 80vh;
+    margin: 0 auto;
+    overflow: auto;
+    background-color: rgb(229, 217, 45);
+}
+
+.cardContainer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+.cardContainer a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cardContainer a:hover {
+    color: red;
+}
+
+.peopleCard {
+    padding: 0;
+}
+
+.peopleCard a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.peopleCard a:hover {
+    color: red;
+}
+
+.volver {
+    position: absolute;
+    left: 0;
+    font-size: 25px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.volver:hover {
+    color: red;
+}
+
+.info {
+    display: flex;
+    margin-top: 15px;
+    gap: 15px;
+    text-align: center;
+    justify-content: center;
+}
+
+.cardInfo {
+    width: 150px;
+    text-align: center;
+}
+
+/* ul/li scoped to .wrapper so they don't bleed into V2 */
+/* Using :global() inside .wrapper to satisfy CSS Modules purity rules */
+.wrapper :global(ul) {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper :global(li) {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.wrapper :global(li) :global(img) {
+    width: 25px;
+    border-radius: 50px;
+    margin-right: 5px;
+}
+
+/* Action icons (live/die) — smaller than stat icons */
+.cardInfo>a>img {
+    width: 50px;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+.cardInfo a img:hover {
+    opacity: 0.65;
+}
+
+/* ---- Migration Modal ---- */
+.migrationOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.migrationModal {
+    background-color: rgb(240, 240, 240);
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--main-color);
+}
+
+.migrationModal h2 {
+    color: var(--main-color);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.migrationModal p {
+    margin-bottom: 25px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.migrationBtns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.migrationBtnV2 {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    transition: transform 0.2s;
+}
+
+.migrationBtnV2:hover {
+    transform: scale(1.05);
+    background-color: rgb(140, 20, 25);
+}
+
+.migrationBtnStay {
+    background-color: transparent;
+    color: #666;
+    border: 2px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.migrationBtnStay:hover {
+    border-color: #999;
+    color: #333;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 576px) {
+    .header {
+        width: 100%;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+    .change {
+        top: 10px;
+        right: 20px;
+    }
+
+    .reset {
+        top: 10px;
+        right: 60px;
+    }
+}
+
+@media (max-width: 425px) {
+    .mainHeader {
+        flex-direction: column;
+    }
+
+    .actual {
+        width: 100%;
+    }
+
+    .searchContainer {
+        padding: 15px;
+    }
+}

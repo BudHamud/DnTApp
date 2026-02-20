@@ -1,0 +1,5 @@
+/* Root globals — minimal to avoid breaking V2 */
+body {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+:root {
+    --primary-color: #aa2329;
+    --accent-cyan: #00f2ff;
+    --bg-dark: #0f1115;
+    --card-dark: rgba(26, 29, 35, 0.85);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    color: #f1f5f9;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Burgundy background - OPTIMIZED FOR PERFORMANCE */
+@utility bg-burgundy-grain {
+    background-color: #2a0a0e;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Glass panels - NO BACKDROP FILTER FOR PERFORMANCE */
+.glass-panel {
+    background: rgba(26, 29, 35, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(170, 35, 41, 0.3);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(170, 35, 41, 0.6);
+}
+
+/* Candidate items */
+.candidate-item {
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.candidate-item:hover {
+    background: rgba(170, 35, 41, 0.15);
+    border-left-color: var(--primary-color);
+}
+
+.candidate-item.selected {
+    background: rgba(170, 35, 41, 0.15);
+    border-left-color: var(--primary-color);
+}
+
+/* Decision log items */
+.decision-log-item {
+    transition: background 0.2s;
+}
+
+.decision-log-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Buttons */
+.btn-spare {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    transition: all 0.2s;
+    transform: scale(1);
+}
+
+.btn-spare:hover {
+    background: var(--accent-cyan);
+    transform: scale(1.02);
+}
+
+.btn-death {
+    background: rgba(170, 35, 41, 0.2);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    transition: all 0.2s;
+    transform: scale(1);
+}
+
+.btn-death:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.02);
+}
+
+/* Stat bars */
+.stat-bar-bg {
+    background: rgba(255, 255, 255, 0.05);
+    height: 4px;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.3s;
+}
+
+.stat-bar-fill.positive {
+    background: #4ade80;
+}
+
+.stat-bar-fill.negative {
+    background: #f87171;
+}
+
+/* Material Icons */
+.material-icons-round,
+.material-symbols-outlined {
+    font-family: 'Material Icons Round', 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+
+    /* Larger touch targets */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Prevent text selection on touch */
+    .candidate-item,
+    .decision-log-item {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+
+    /* Optimize scrolling */
+    .custom-scrollbar {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Adjust font sizes for mobile */
+    body {
+        font-size: 14px;
+    }
+}
